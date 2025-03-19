@@ -7,12 +7,13 @@ phases:
   build:
     commands:
       - echo "Building the application..."
-      - mkdir artifacts
-      - cp -r * artifacts/
+      - mkdir -p artifacts  # Avoids errors if already exists
+      - ls -la  # Debug: Check files before copying
+      - cp -r $(ls -A | grep -v '^artifacts$') artifacts/  # Avoid copying artifacts itself
   post_build:
     commands:
       - echo "Build completed successfully"
-# artifacts:
-#   files:
-#     - '**/*'
-#   base-directory: artifacts
+
+artifacts:
+  files:
+    - artifacts/**  # Ensure artifacts are uploaded
